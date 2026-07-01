@@ -1,34 +1,12 @@
 <?php
 
-use App\Models\Product;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
 
-Route::post("login", function () {
-    return response()->json(["message" => "Inicio de sesión"]);
-});
-Route::post("register", function () {
-    return response()->json(["message" => "Inicio de sesión"]);
-});
-Route::get('/products', function () {
+Route::get('/products', [ProductController::class, 'index']);
 
-    // Eloquent ORM: Trae absolutamente todos los registros de la tabla products en MySQL
-    $todosLosProductos = Product::all(); 
-    
-    // Lo escupimos en formato JSON automáticamente
-    return response()->json($todosLosProductos);
+Route::post('/products', [ProductController::class, 'store']);
 
-    // return response()->json(['message' => 'Aquí listaremos todos los productos con su stock']);
-});
+Route::put('/products/{id}', [ProductController::class, 'update']);
 
-Route::post('/products', function () {
-    return response()->json(['message' => 'Aquí el administrador podrá agregar un producto nuevo']);
-});
-
-Route::put('/products/{id}', function () {
-    return response()->json(['message' => 'Aquí se actualizarán los datos o existencias de un producto']);
-});
-
-Route::delete('/products/{id}', function () {
-    return response()->json(['message' => 'Aquí se eliminará un producto en cascada']);
-});
+Route::delete('/products/{id}', [ProductController::class, 'destroy']); 
